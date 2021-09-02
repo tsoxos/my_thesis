@@ -5,13 +5,17 @@ services:
     build:
       context: .
       dockerfile: .docker/Dockerfile
-    image: 'fivos_thesis_app'
+    image: 'tsoxos/argiridis_thesis'
+    container_name: argiridis_thesis_app
     ports: 
       - "9000:80"
-    volumes: 
-      - ./:/var/www/html
+    networks:
+      - thesis_network
+    depends_on:
+      - db
   db:
     image: mariadb
+    container_name: argiridis_thesis_db
     restart: always
     ports:
       - "3123:3306"
@@ -21,3 +25,11 @@ services:
       MYSQL_ROOT_PASSWORD: ""
     volumes:
       - ./db:/var/lib/mysql
+    networks:
+      - thesis_network
+networks:
+    thesis_network:
+        driver: bridge
+volumes:
+    thesis_db:
+        driver: local

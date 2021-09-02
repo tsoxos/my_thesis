@@ -2,6 +2,8 @@ FROM php:8.0.9-apache
 
 USER root
 
+COPY . /var/www/html
+
 WORKDIR /var/www/html
 
 RUN apt-get update && apt-get install -y \
