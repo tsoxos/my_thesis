@@ -13,6 +13,7 @@ services:
       - thesis_network
     depends_on:
       - db
+    restart: on-failure
   db:
     image: mariadb
     container_name: argiridis_thesis_db

@@ -22,11 +22,12 @@ RUN apt-get update && apt-get install -y \
     && docker-php-ext-install zip \
     && docker-php-source delete
 
-COPY .docker/vhost.conf /etc/apache2/sites-available/000-default.conf
+# COPY .docker/vhost.conf /etc/apache2/sites-available/000-default.conf
 
 RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
+RUN composer install
 
-RUN chown -R www-data:www-data /var/www/html \
-    && a2enmod rewrite
+# RUN chown -R www-data:www-data /var/www/html \
+#    && a2enmod rewrite
 
-
+ENTRYPOINT  bash -c "sleep 5 && php artisan migrate && php artisan serve --host=0.0.0.0 --port=80"
